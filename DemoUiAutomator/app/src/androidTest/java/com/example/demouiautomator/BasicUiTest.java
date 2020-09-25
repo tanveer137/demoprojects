@@ -22,7 +22,7 @@ public class BasicUiTest {
 
     @BeforeClass
     public static void setup() {
-        // Initialize and instance of the UiDevice
+        // Initialize an instance of the UiDevice
         sUiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     }
 
@@ -34,49 +34,52 @@ public class BasicUiTest {
 //    /**
 //     * This test case verifies if the Android Settings can be opened
 //     * by clicking on the icon in the home screen.
+//     * [Implementation using UiObject]
 //     */
 //    @Test
 //    public void testOpenSettings() {
-//        // Identifiers for UI elements are stored in variables
-//        String settings_text = "Settings";
-//        String settings_content_resource_id = "com.android.settings:id/recycler_view";
 //        // Press on Home button using the UiDevice
 //        sUiDevice.pressHome();
 //        // Initialize UiObject to find view item having text "Settings"
-//        UiObject settings = sUiDevice.findObject(new UiSelector().text(settings_text));
-//        try {
-//            // Click on the UiObject identified with text "Settings"
-//            settings.click();
-//        } catch (UiObjectNotFoundException e) {
-//            e.printStackTrace();
+//        UiObject settings = sUiDevice.findObject(new UiSelector().text("Settings"));
+//        // Wait for maximum 5 seconds for the object to appear
+//        if (settings.waitForExists(5000)) {
+//            try {
+//                // Click on the UiObject identified with text "Settings"
+//                if (!settings.click()) {
+//                    Assert.fail("Could not click on settings icon.");
+//                }
+//            } catch (UiObjectNotFoundException e) {
+//                Assert.fail(e.getMessage());
+//            }
+//        } else {
+//            Assert.fail("Settings is not available in home screen.");
 //        }
 //        // Initialize UiObject to find view item having the resource ID of settings recycler view
 //        UiObject settings_content = sUiDevice.findObject(new UiSelector()
-//                .resourceId(settings_content_resource_id));
+//                .resourceId("com.android.settings:id/recycler_view"));
 //        // Assert that the UiObject actually exists on the display
-//        Assert.assertTrue(settings_content.exists());
+//        Assert.assertTrue(settings_content.waitForExists(5000));
 //        try {
 //            // Assert that the total number of child items (menu items) for the container
 //            // (settings page) is more than 10
 //           Assert.assertTrue(settings_content.getChildCount() > 10);
 //        } catch (UiObjectNotFoundException e) {
-//            e.printStackTrace();
+//            Assert.fail(e.getMessage());
 //        }
 //    }
 
     /**
      * This test case verifies if the Android Settings can be opened
      * by clicking on the icon in the home screen.
+     * [Implementation using UiObject2]
      */
     @Test
     public void testOpenSettings() {
-        // Identifiers for UI elements are stored in variables
-        String settings_text = "Settings";
-        String settings_content_resource_id = "com.android.settings:id/recycler_view";
         // Press on Home button using the UiDevice
         sUiDevice.pressHome();
         // Initialize UiObject2 to find view item having text "Settings"
-        UiObject2 settings = sUiDevice.findObject(By.text(settings_text));
+        UiObject2 settings = sUiDevice.findObject(By.text("Settings"));
         // Check if the object exists, null would mean the UI element was not found
         if (settings != null) {
             // Click on the UiObject2 identified with text "Settings"
@@ -89,7 +92,8 @@ public class BasicUiTest {
         // This is because, after clicking on the settings icon, it might need some time to
         // load the settings page, therefore it would require some time to discover the UI
         // element by the UiAutomator
-        UiObject2 settings_content = sUiDevice.wait(Until.findObject(By.res(settings_content_resource_id)),
+        UiObject2 settings_content = sUiDevice.wait(Until
+                        .findObject(By.res("com.android.settings:id/recycler_view")),
                 5000);
         // Assert that the UiObject2 actually exists on the display
         Assert.assertNotNull(settings_content);
